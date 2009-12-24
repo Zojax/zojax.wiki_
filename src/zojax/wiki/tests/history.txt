@@ -1,0 +1,110 @@
+===================
+Wiki Page Revisions
+===================
+
+    >>> from zope.interface.verify import verifyObject
+    >>> from zope.app.component.hooks import setSite
+    >>> from zope.app.security.interfaces import IAuthentication
+    >>> from zojax.wiki import workspace, interfaces
+    >>> from zojax.wiki.revision import Revision
+
+    >>> root = getRootFolder()
+    >>> setSite(root)
+    >>> sm = root.getSiteManager()
+    >>> principal = sm.getUtility(IAuthentication).getPrincipal('zope.mgr')
+
+    >>> factory = workspace.WikiWorkspaceFactory(root)
+    >>> wiki = factory.install()
+
+    >>> frontpage = wiki['FrontPage']
+    >>> verifyObject(interfaces.IHistory, frontpage.history)
+    True
+
+    >>> revision = Revision(frontpage.title, frontpage.text.text,
+    ...                     frontpage.text.format, frontpage.cooked)
+    >>> verifyObject(interfaces.IRevision, revision)
+    True
+
+    >>> frontpage.history.add(revision, u'note1', 'zope.mgr')
+
+    >>> frontpage.text.text = u'New text for FrontPage'
+    >>> frontpage.cook()
+
+    >>> revision = Revision(frontpage.title, frontpage.text.text,
+    ...                     frontpage.text.format, frontpage.cooked)
+    >>> frontpage.history.add(revision, u'note2', 'zope.mgr')
+
+    >>> frontpage.text.text = u'New text for FrontPage\n WikiProduct text'
+    >>> frontpage.cook()
+
+    >>> revision = Revision(frontpage.title, frontpage.text.text,
+    ...                     frontpage.text.format, frontpage.cooked)
+    >>> frontpage.history.add(revision, u'note3', 'zope.mgr')
+
+    >>> frontpage.text.text = u'New text for FrontPage'
+    >>> frontpage.cook()
+
+    >>> history = frontpage.history
+
+    >>> len(history)
+    3
+    >>> history.get(0)
+    <zojax.wiki.revision.Revision ...>
+    
+    >>> list(history.keys())
+    [0, 1, 2]
+    
+    >>> list(history.items())
+    [(0, <zojax.wiki.revision.Revision ...>), (1, <zojax.wiki.revision.Revision ...>), (2, <zojax.wiki.revision.Revision ...>)]
+    
+    >>> list(history.values())
+    [<zojax.wiki.revision.Revision ...>, <zojax.wiki.revision.Revision ...>, <zojax.wiki.revision.Revision ...>]
+    
+    >>> [id for id in history]
+    [0, 1, 2]
+    
+    >>> history['0']
+    <zojax.wiki.revision.Revision ...>
+
+    >>> '0' in history
+    True
+    >>> 0 in history
+    True
+    >>> 'adadsasd' in history
+    False
+
+    >>> for line in history.diff(0, 1):
+    ...     print line
+    ??changed:
+    -This is FrontPage of the Wiki.
+    +New text for FrontPage
+
+    >>> for line in history.diff(1, 2):
+    ...     print line
+    ++added:
+    +WikiProduct text
+
+    >>> revision = Revision(frontpage.title, frontpage.text.text,
+    ...                     frontpage.text.format, frontpage.cooked)
+    >>> frontpage.history.add(revision, u'note4', 'zope.mgr')
+
+    >>> for line in history.diff(2, 3):
+    ...     print line
+    --removed:
+    -WikiProduct text
+
+    >>> revision = history[2]
+    >>> revision.getPrincipal()
+    <...Principal ...>
+
+    >>> len(history)
+    4
+
+    >>> revision.revert('zope.mgr')
+    >>> frontpage.text.text == revision.text
+    True
+
+    >>> len(history)
+    5
+
+    >>> setSite(None)    

@@ -1,0 +1,69 @@
+/* zrt-cssregistry: */
+
+@media all {
+
+  .wiki-diff { 
+    overflow: hidden;
+    padding: 0.5em 1em;
+    margin-bottom: 1em;
+  }
+
+  .wiki-diff-tag {
+    font-weight: bold;
+  }
+
+  .wiki-diff-added {
+    color: green;
+  }
+
+  .wiki-diff-removed {
+    color: notifyBorderColor;
+    text-decoration: line-through;
+  }
+
+  .wiki-revision-information {
+    clear: both;
+    float: right;
+    font-size: 90%;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+    background-color: transparent;
+    background: contentBackgroundColor;
+  }
+
+  .wiki-revision-information table {
+    margin-top: 0.75em;
+    background: contentBackgroundColor;
+    border-top: borderWidth borderStyle globalBorderColor;
+  }
+
+  .wiki-revision-information a {
+    text-decoration: none;
+  }
+
+  .wiki-revision-information a:hover {
+    text-decoration: underline;
+  }
+
+  .wiki-revision-information tr {
+    vertical-align: top;
+  }
+
+  .wiki-revision-information td {
+    border-right: borderWidth borderStyle globalBorderColor;
+    border-bottom: borderWidth borderStyle globalBorderColor;
+    padding: 0.2em 0.5em;
+    width: 50%;
+  }
+
+  .wiki-revision-information th {
+    background-color: globalBackgroundColor;
+    border-left: borderWidth borderStyle globalBorderColor;
+    border-right: borderWidth borderStyle globalBorderColor;
+    border-bottom: borderWidth borderStyle globalBorderColor;
+    color: discreetColor;
+    white-space: nowrap;
+    padding: 0.2em 0.5em;
+  }
+
+}

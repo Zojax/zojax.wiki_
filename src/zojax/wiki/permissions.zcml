@@ -1,0 +1,18 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.wiki">
+
+  <!-- permissions -->
+  <zojax:permission
+     permission="zojax.ModifyWikiContent"
+     category="zojax.content.permissions.interfaces.IAddPermission" />
+
+  <zojax:contentpermission
+     permission="zojax.ModifyWikiContent"
+     contenttype="wiki.page"
+     managepermission="zojax.ManageContentPermission"
+     class=".permissions.WikiPermission"
+     category="zojax.content.permissions.interfaces.IAddPermission" />
+
+</configure>

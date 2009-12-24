@@ -1,0 +1,7 @@
+<html>
+  <body>
+    <div id="z-portal-statusmessage"
+	 tal:content="structure provider:statusMessage" />
+    <tal:block tal:content="structure view/render" />
+  </body>
+</html>

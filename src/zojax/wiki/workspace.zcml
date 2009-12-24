@@ -1,0 +1,50 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.wiki">
+
+  <zojax:reservedNames
+     names="wiki"
+     for="zojax.content.space.interfaces.IContentSpace" />
+
+  <!-- wiki workspace -->
+  <zojax:content
+     name="workspace.wiki"
+     title="Wiki Workspace"
+     class=".workspace.WikiWorkspace"
+     schema=".interfaces.IWikiWorkspace"
+     contains="wiki.page"
+     type="zojax.content.type.interfaces.IInactiveType" />
+
+  <class class=".workspace.WikiWorkspace">
+    <implements interface="zojax.activity.interfaces.IActivityAware" />
+    <implements interface="zojax.catalog.interfaces.ISearchContext" />
+    <implements interface="zojax.extensions.interfaces.IExtensible" />
+    <implements interface="zojax.ownership.interfaces.IInheritOwnership" />
+    <implements interface="zojax.content.type.interfaces.IRenameNotAllowed" />
+    <implements interface="zojax.content.type.interfaces.ISearchableContent" />
+    <implements interface="zojax.content.type.interfaces.IUnremoveableContent" />
+    <implements interface="zojax.content.type.interfaces.IContainerContentsAware" />
+    <implements interface="zope.app.container.interfaces.IContainerNamesContainer" />
+
+    <require
+       permission="zope.Public"
+       interface=".interfaces.IWikiWorkspace
+		  zope.app.container.interfaces.IReadContainer" />
+    <require
+       permission="zojax.ModifyContent"
+       attributes="__delitem__"
+       set_schema=".interfaces.IWikiWorkspace" />
+
+    <require
+       permission="zojax.ModifyWikiContent"
+       attributes="__setitem__" />
+  </class>
+
+  <!-- wiki workspace factory -->
+  <adapter
+     name="wiki"
+     factory=".workspace.WikiWorkspaceFactory" />
+
+</configure>

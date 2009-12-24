@@ -1,0 +1,67 @@
+==========
+Wiki links
+==========
+
+    >>> from zojax.wiki.format import parse
+    >>> from zojax.wiki.wiki import Wiki
+    >>> from zojax.wiki.wikipage import WikiPage
+    >>> from zope.publisher.browser import TestRequest
+
+    >>> root = getRootFolder()
+
+    >>> root['wiki'] = Wiki()
+    >>> root['wiki']['WikiName'] = WikiPage()
+
+    >>> wiki = root['wiki']
+    >>> wikipage = root['wiki']['WikiName']
+
+    >>> text = """
+    ... Test page test test WikiName
+    ... AnotherName AName NameB
+    ... just text !NotALink
+    ... bracked link [Test (Link)]
+    ... url link mailto:fafhrd91@gmail.com my email
+    ... http link http:zojax.net zojax homepage
+    ... inside <pre> LinkDoNotWork </pre>
+    ... or inside <code> AlsoDoNotWork </code>
+    ... <a href="#TestTag>test test</a>
+    ... <a href="#">TestTag</a>
+    ... """
+
+    >>> cooked = parse(text)
+    >>> for block in cooked:
+    ...     print block
+    <TextBlock '\nTest page test test '>
+    <WikiLinkBlock 'WikiName'>
+    <TextBlock '\n'>
+    <WikiLinkBlock 'AnotherName'>
+    <TextBlock ' '>
+    <WikiLinkBlock 'AName'>
+    <TextBlock ' '>
+    <WikiLinkBlock 'NameB'>
+    <TextBlock '\njust text NotALink\nbracked link '>
+    <WikiLinkBlock 'Test (Link)'>
+    <TextBlock '\nurl link '>
+    <URLBlock 'fafhrd91@gmail.com'>
+    <TextBlock ' my email\nhttp link '>
+    <URLBlock 'zojax.net'>
+    <TextBlock ' zojax homepage\ninside <pre> LinkDoNotWork </pre>\nor inside <code> AlsoDoNotWork </code>\n<a href="#TestTag>test test</a>\n<a href="#">TestTag</a>\n'>
+
+    >>> cooked[0].render(wiki, wikipage, TestRequest())
+    '\nTest page test test '
+
+    >>> cooked[1].render(wiki, wikipage, TestRequest())
+    u'<a href="../WikiName/">WikiName</a>'
+
+    >>> cooked[3].render(wiki, wikipage, TestRequest())
+    u'AnotherName<a href="../AnotherName/?parent=WikiName">?</a>'
+
+    >>> cooked[9].render(wiki, wikipage, TestRequest())
+    u'Test (Link)<a href="../TestLink/?parent=WikiName">?</a>'
+
+    >>> cooked[11].render(wiki, wikipage, TestRequest())
+    u'<a href="mailto:fafhrd91%40gmail.com">fafhrd91@gmail.com</a>'
+
+    >>> cooked[13].render(wiki, wikipage, TestRequest())
+    u'<a href="http://zojax.net">zojax.net</a>'
+

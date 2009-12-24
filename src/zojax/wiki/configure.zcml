@@ -1,0 +1,48 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.wiki">
+
+  <permission
+     id="zojax.ModifyWikiContent"
+     title="Modify wiki content"
+     description="Allow modify wiki pages." />
+
+  <!-- wiki permissions -->
+  <include file="permissions.zcml" />
+
+  <!-- wiki declaration -->
+  <include file="wiki.zcml" />
+
+  <!-- wiki page declaration -->
+  <include file="wikipage.zcml" />
+
+ <!-- text blocks -->
+  <include file="format.zcml" />
+
+ <!-- wiki page history -->
+  <include file="revision.zcml" />
+
+  <!-- workspace declaration -->
+  <include file="workspace.zcml" />
+
+  <!-- documents support -->
+  <include file="documents.zcml" />
+
+  <!-- portlets -->
+  <include package=".portlets" />
+
+  <!-- browser views -->
+  <include package=".browser" />
+
+  <!-- vocabulary -->
+  <utility
+     name="zojax.wiki.pages"
+     provides="zope.schema.interfaces.IVocabularyFactory"
+     component=".vocabulary.wikiPagesVocabulary" />
+
+  <!-- translations -->
+  <i18n:registerTranslations directory="locales"/>
+
+</configure>

@@ -1,0 +1,17 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="zojax.wiki">
+
+  <class class=".format.TextBlock">
+    <allow interface=".interfaces.IWikiTextBlock" />
+  </class>
+
+  <class class=".format.WikiLinkBlock">
+    <allow interface=".interfaces.IWikiTextBlock" />
+  </class>
+
+  <class class=".format.URLBlock">
+    <allow interface=".interfaces.IWikiTextBlock" />
+  </class>
+
+</configure>

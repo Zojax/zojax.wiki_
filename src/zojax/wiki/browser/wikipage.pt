@@ -1,0 +1,2 @@
+<br />
+<tal:block content="structure view/renderText" />

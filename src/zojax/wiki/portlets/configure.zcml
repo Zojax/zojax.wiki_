@@ -1,0 +1,22 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.wiki">
+
+  <!-- wiki portlet managers -->
+  <zojax:portletManager
+     name="columns.left"
+     for="..interfaces.IWikiWorkspace"
+     title="Wiki left column"
+     schema=".interfaces.IWikiLeftPortletManager"
+     class="zojax.portlet.manager.PortletManagerWithStatus" />
+
+  <zojax:portletManager
+     name="columns.right"
+     for="..interfaces.IWikiWorkspace"
+     title="Wiki right column"
+     schema=".interfaces.IWikiRightPortletManager"
+     class="zojax.portlet.manager.PortletManagerWithStatus" />
+
+</configure>
