@@ -1,0 +1,25 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.wiki">
+
+  <class class=".revision.Revision">
+    <require
+       permission="zope.Public"
+       interface=".interfaces.IRevision" />
+    <require
+       permission="zojax.ModifyWikiContent"
+       attributes="revert" />
+  </class>
+
+  <class class=".revision.History">
+    <require
+       permission="zope.Public"
+       attributes="diff title"
+       interface="zope.interface.common.mapping.IEnumerableMapping" />
+    <require
+       permission="zojax.ModifyWikiContent"
+       attributes="add" />
+  </class>
+
+</configure>

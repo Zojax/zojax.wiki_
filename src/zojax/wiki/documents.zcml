@@ -1,0 +1,46 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zcml="http://namespaces.zope.org/zcml"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   zcml:condition="installed zojax.content.documents"
+   i18n_domain="zojax.wiki">
+
+  <include package="zojax.content.documents" file="permissions.zcml" />
+
+  <zojax:content
+     title="Wiki"
+     name="contenttype.wiki"
+     schema=".interfaces.IWiki"
+     class=".wiki.Wiki"
+     contains="wiki.page"
+     type="zojax.content.type.interfaces.IActivePortalType
+	   zojax.content.documents.interfaces.IDocumentType"
+     description="A wiki in the site."
+     permission="zojax.AddDocuments" />
+
+  <class class=".wiki.Wiki">
+    <implements interface="zojax.activity.interfaces.IActivityAware" />
+    <implements interface="zojax.catalog.interfaces.ISearchContext" />
+    <implements interface="zojax.extensions.interfaces.IExtensible" />
+    <implements interface="zojax.ownership.interfaces.IOwnerAware" />
+    <implements interface="zojax.content.type.interfaces.ISearchableContent" />
+    <implements
+       interface="zojax.content.type.interfaces.IContainerContentsAware" />
+    <implements
+       interface="zope.app.container.interfaces.IContainerNamesContainer" />
+
+    <require
+       permission="zope.Public"
+       interface=".interfaces.IWiki
+		  zope.app.container.interfaces.IReadContainer" />
+    <require
+       permission="zojax.ModifyContent"
+       attributes="__delitem__"
+       set_schema=".interfaces.IWiki" />
+
+    <require
+       permission="zojax.ModifyWikiContent"
+       attributes="__setitem__" />
+  </class>
+
+</configure>

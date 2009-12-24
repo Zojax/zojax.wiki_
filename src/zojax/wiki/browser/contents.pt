@@ -1,0 +1,23 @@
+<tal:block i18n:domain="zojax.wiki">
+  <tal:block define="context nocall:context/__parent__">
+    <tal:block tal:content="structure pageelement:content.title" />
+    <tal:block tal:content="structure pageelement:content.header" />
+    <tal:block tal:content="structure pageelement:content.description" />
+  </tal:block>
+  <br />
+
+  <div class="z-content-body" tal:define="data view/data">
+    <ul metal:define-macro="page">
+      <li tal:repeat="info data">
+	<a tal:attributes="href info/url" tal:content="info/title"/>
+	<tal:block condition="info/current">
+	  &lt;-- Your are here.
+	</tal:block>
+	<tal:block tal:define="data info/subtopics"
+		   tal:condition="data">
+	  <metal:block use-macro="view/template/macros/page" />
+	</tal:block>
+      </li>
+    </ul>
+  </div>
+</tal:block>

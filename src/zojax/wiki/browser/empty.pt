@@ -1,0 +1,33 @@
+<tal:block tal:condition="not:view/allow">
+  <h1 class="z-form-title" tal:content="view/label" 
+      i18n:translate=""></h1>
+  
+  <br />
+  <div>
+    Sorry, you don't have permission to perform this action.
+  </div>
+
+  <br />
+  <a href="#"
+     tal:attributes="href string:../${request/parent|nothing}/">Back</a>
+</tal:block>
+
+<tal:block tal:condition="view/allow">
+  <div class="z-form z-form-standard">
+    <form action="." method="post" enctype="multipart/form-data" 
+	  tal:attributes="method view/method;
+			  enctype view/enctype;
+			  acceptCharset view/acceptCharset;
+			  accept view/accept;
+			  action view/action;
+			  name view/name;
+			  id view/id"
+	  tal:define="context nocall:view">
+      <tal:block tal:content="structure pagelet:form.viewspace" />
+      <tal:block tal:content="structure pagelet:form.buttons" />
+
+      <input type="hidden" name="parent"
+	     tal:attributes="value request/parent|nothing" />
+    </form>
+  </div>
+</tal:block>

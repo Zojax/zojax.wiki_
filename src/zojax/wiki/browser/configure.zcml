@@ -1,0 +1,148 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zcml="http://namespaces.zope.org/zcml"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.wiki">
+
+  <include file="related.zcml" />
+  <include file="history.zcml" />
+
+  <!-- wiki -->
+  <adapter factory=".wiki.WikiPublisher" />
+
+  <adapter
+     name="manage.wiki"
+     factory=".wiki.ManageWiki" />
+
+  <adapter
+     name="manage.addwikipage"
+     factory=".wiki.AddWikiPageAction" />
+
+  <browser:icon
+     name="zmi_icon"
+     file="icons/wiki.gif"
+     for=".interfaces.IManageWikiAction" />
+
+  <zojax:pagelet
+     name="addwikipage.html"
+     for="..interfaces.IWiki"
+     class=".wiki.AddWikiPageForm"
+     permission="zojax.ModifyWikiContent" />
+
+  <browser:icon
+     name="zmi_icon"
+     file="icons/wiki.gif"
+     for=".interfaces.IAddWikiPageAction" />
+
+  <!-- wiki page -->
+  <zojax:pagelet
+     name="index.html"
+     for="..interfaces.IWikiPage"
+     template="wikipage.pt"
+     class=".wikipage.WikiPage"
+     provides="zojax.content.type.interfaces.IContentView"
+     permission="zope.View" />
+
+  <zojax:pagelet
+     name="context.html"
+     for="..interfaces.IWikiPage"
+     class="zojax.content.forms.wizardedit.EditContentWizard"
+     allowed_attributes="actions upperContainer"
+     provides="zojax.wizard.interfaces.IWizardWithTabs"
+     permission="zojax.ModifyWikiContent" />
+
+  <zojax:pagelet
+     name="content"
+     type="wizard.step"
+     for="..interfaces.IWikiPage
+	  zojax.content.forms.interfaces.IEditContentWizard"
+     class=".wikipage.EditWikiPage"
+     permission="zojax.ModifyWikiContent"
+     weight="100" />
+
+ <zojax:pagelet
+     name="basic"
+     type="form.subform"
+     for="..interfaces.IWikiPage
+	  zojax.content.forms.interfaces.IContentStep"
+     class="zojax.wizard.step.WizardStepDisabled"
+     weight="10" />
+
+  <zojax:pagelet
+     name="parent"
+     type="wizard.step"
+     for="..interfaces.IWikiPage
+	  zojax.content.forms.interfaces.IEditContentWizard"
+     class=".wikipage.EditWikiPageParent"
+     permission="zojax.ModifyWikiContent"
+     weight="101" />
+
+  <adapter factory=".wikipage.WikiPageNote" />
+  <adapter factory=".wikipage.WikiPageParent" />
+
+  <zojax:pageelement
+     name="content.byline"
+     for="..interfaces.IWikiPage"
+     template="wikipagebyline.pt"
+     class=".wikipage.WikiPageByline"
+     provides="zojax.content.browser.interfaces.IContentByline" />
+
+  <!-- wiki contents -->
+  <adapter
+     name="wiki.contents"
+     factory=".contents.WikiContentsAction" />
+
+  <zojax:pagelet
+     name="contents.html"
+     for="..interfaces.IWikiPage"
+     template="contents.pt"
+     class=".contents.WikiContents"
+     permission="zope.View" />
+
+  <!-- empty wiki page -->
+  <browser:defaultView
+     name="index.html"
+     for=".interfaces.IEmptyWikiPage" />
+
+  <zojax:pagelet
+     name="index.html"
+     for=".interfaces.IEmptyWikiPage"
+     template="empty.pt"
+     class=".empty.EmptyWikiPageForm"
+     permission="zope.View" />
+  
+  <!-- icons -->
+  <browser:icon
+     name="zmi_icon"
+     for="..interfaces.IWiki"
+     file="icons/wiki.gif" />
+
+  <browser:icon
+     name="zmi_icon"
+     for="zojax.content.contenttype_wiki"
+     file="icons/wiki.gif"
+     zcml:condition="installed zojax.content.documents" />
+
+  <browser:icon
+     name="zmi_icon"
+     for="zojax.content.wiki_page"
+     file="icons/wiki.gif" />
+
+  <browser:icon
+     name="zmi_icon"
+     for="..interfaces.IWikiPage"
+     file="icons/wiki.gif" />
+  
+  <browser:icon
+     name="zmi_icon"
+     for="..interfaces.IWikiWorkspaceFactory"
+     file="icons/wiki.gif" />
+  
+  <!-- styles -->
+  <zojax:resourceinclude
+     name="zojax-wiki.css"
+     file="styles.css"
+     library="zojax" type="stylesheet" filetype="zrt" />
+  
+</configure>

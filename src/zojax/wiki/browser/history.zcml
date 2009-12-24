@@ -1,0 +1,42 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.wiki">
+
+  <!-- history view -->
+  <zojax:pagelet
+     name="history.html"
+     for="..interfaces.IWikiPage"
+     template="history.pt"
+     class=".history.HistoryView"
+     permission="zope.View" />
+
+  <!-- action -->
+  <adapter
+     name="wiki.history"
+     factory=".history.WikiPageHistory" />
+
+  <!-- table -->
+  <adapter
+     name="wiki.page.history"
+     provides="zope.contentprovider.interfaces.IContentProvider"
+     factory=".history.WikiPageHistoryTable" />
+
+  <adapter
+     name="id"
+     factory=".history.IdColumn" />
+
+  <adapter
+     name="note"
+     factory=".history.NoteColumn" />
+
+  <adapter
+     name="editor"
+     factory=".history.EditorColumn" />
+
+  <adapter
+     name="date"
+     factory=".history.DateColumn" />
+
+</configure>

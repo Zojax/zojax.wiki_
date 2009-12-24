@@ -1,0 +1,12 @@
+<div class="z-content-byline">
+  Last modified by
+  <tal:block condition="view/author">
+    <a tal:attributes="href view/space" tal:omit-tag="not:view/space">
+      <tal:block content="view/author"/>
+    </a>
+  </tal:block>
+
+  at 
+  <tal:block content="structure formatter:fancyDatetime,medium:view/date" />
+  (<a tal:attributes="href string:${context/@@absolute_url}/history.html">History</a>)
+</div>

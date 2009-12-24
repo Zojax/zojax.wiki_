@@ -1,0 +1,199 @@
+=============
+Browser tests
+=============
+
+    >>> from zope.interface import verify
+    >>> from zope.app.component.hooks import setSite
+    >>> from zope.app.security.interfaces import IAuthentication
+    >>> from zope.publisher.browser import TestRequest
+    >>> from zope.security.management import newInteraction, endInteraction
+    >>> from zope.copypastemove.interfaces import IObjectMover
+    >>> from zojax.wiki import workspace, interfaces
+    >>> from zojax.wiki.wikipage import WikiPage
+
+    >>> root = getRootFolder()
+    >>> setSite(root)
+    >>> sm = root.getSiteManager()
+    >>> request = TestRequest()
+    >>> request.setPrincipal(
+    ...     sm.getUtility(IAuthentication).getPrincipal('zope.mgr'))
+    >>> newInteraction(request)
+
+
+Wiki workspace factory
+=========================
+
+    >>> factory = workspace.WikiWorkspaceFactory(root)
+    >>> print factory.isInstalled()
+    False
+
+    >>> print factory.isAvailable()
+    True
+
+    >>> factory.isInstalled()
+    False
+
+    >>> wiki = factory.install()
+    >>> interfaces.IWikiWorkspace.providedBy(wiki)
+    True
+
+    >>> root['wiki'] is wiki
+    True
+
+    >>> factory.isInstalled()
+    True
+
+
+Verify contract implementation
+------------------------------
+
+    >>> verify.verifyClass(interfaces.IWikiWorkspace, workspace.WikiWorkspace)
+    True
+
+    >>> verify.verifyObject(interfaces.IWikiWorkspace, root['wiki'])
+    True
+
+    >>> verify.verifyObject(interfaces.IWiki, root['wiki'])
+    True
+
+
+Wiki FrontPage
+--------------
+
+    >>> 'FrontPage' in wiki
+    True
+
+    >>> interfaces.IWikiPage.providedBy(wiki['FrontPage'])
+    True
+
+    >>> wiki['FrontPage'].text.text
+    u'This is FrontPage of the Wiki.'
+
+
+Wiki Table of contents
+----------------------
+
+    >>> frontpage = wiki['FrontPage']
+    >>> frontpage.parent is None
+    True
+
+    >>> frontpage.parent = frontpage.parent
+    >>> frontpage.parent is None
+    True
+
+    >>> list(frontpage.subtopics)
+    []
+
+    >>> wiki['WikiProduct'] = WikiPage(
+    ...     title=u'WikiProduct', text=u'Wiki product')
+    >>> wikiproduct = wiki['WikiProduct']
+
+    >>> wikiproduct.parent == frontpage
+    True
+
+    >>> list(frontpage.subtopics) == [wikiproduct]
+    True
+
+    >>> wikiproduct.parent = wikiproduct
+    >>> wikiproduct.parent == frontpage
+    True
+
+    >>> wiki['WikiWorkspace'] = WikiPage(
+    ...     title=u'WikiWorkspace', text=u'Wiki workspace')
+    >>> wikiworkspace = wiki['WikiWorkspace']
+
+    >>> subtopics = [p.__name__ for p in frontpage.subtopics]
+    >>> subtopics.sort()
+    >>> subtopics
+    [u'WikiProduct', u'WikiWorkspace']
+
+    >>> wikiworkspace.parent == frontpage
+    True
+    >>> wikiworkspace.parent = wikiproduct
+    >>> wikiworkspace.parent == wikiproduct
+    True
+    >>> list(frontpage.subtopics) == [wikiproduct]
+    True
+    >>> list(wikiproduct.subtopics) == [wikiworkspace]
+    True
+
+    >>> mover = IObjectMover(wikiproduct)
+    >>> newname = mover.moveTo(wiki, 'WikiProduct2')
+
+    >>> list(frontpage.subtopics) == [wikiproduct]
+    True
+    >>> wikiproduct.parent == frontpage
+    True
+    >>> list(wikiproduct.subtopics) == [wikiworkspace]
+    True
+    >>> wikiworkspace.parent == wikiproduct
+    True
+
+    >>> del wiki['WikiProduct2']
+
+    >>> wikiworkspace.parent == frontpage
+    True
+    >>> list(frontpage.subtopics) == [wikiworkspace]
+    True
+
+    >>> del wiki['WikiWorkspace']
+    >>> list(frontpage.subtopics)
+    []
+
+
+Backlinks
+---------
+
+    >>> list(frontpage.backlinks)
+    []
+
+    >>> wikiproduct = WikiPage(title=u'WikiProduct')
+    >>> wikiproduct.text=u'Wiki product FrontPage'
+    >>> wiki['WikiProduct'] = wikiproduct
+
+    >>> list(frontpage.backlinks)
+    [u'WikiProduct']
+
+    >>> for wp, links in wiki.backlinks.items():
+    ...     print wp, list(links)
+    FrontPage [u'WikiProduct']
+
+    >>> for wp, links in wiki.links.items():
+    ...     print wp, list(links)
+    FrontPage []
+    WikiProduct [u'FrontPage']
+
+    >>> mover = IObjectMover(wikiproduct)
+    >>> newname = mover.moveTo(wiki, 'WikiProduct2')
+
+    >>> list(frontpage.backlinks)
+    [u'WikiProduct2']
+    >>> for wp, links in wiki.backlinks.items():
+    ...     print wp, list(links)
+    FrontPage [u'WikiProduct2']
+
+    >>> for wp, links in wiki.links.items():
+    ...     print wp, list(links)
+    FrontPage []
+    WikiProduct2 [u'FrontPage']
+
+    >>> del wiki['WikiProduct2']
+
+    >>> list(frontpage.backlinks)
+    []
+    >>> for wp, links in wiki.links.items():
+    ...     print wp, list(links)
+    FrontPage []
+    >>> dict(wiki.backlinks)
+    {}
+
+
+Uninstall blog
+--------------
+
+    >>> factory.uninstall()
+    >>> 'wiki' in root
+    False
+
+    >>> endInteraction()
+    >>> setSite(None)

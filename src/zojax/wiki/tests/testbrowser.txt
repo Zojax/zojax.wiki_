@@ -1,0 +1,367 @@
+============
+Test browser
+============
+
+    >>> from zope.testbrowser.testing import Browser
+
+    >>> admin = Browser()
+    >>> admin.addHeader("Authorization", "Basic mgr:mgrpw")
+    >>> admin.handleErrors = False
+
+    >>> admin.open('http://localhost/space/context.html/content/')
+    >>> admin.getLink('Workspaces').click()
+    >>> admin.getControl(name="workspaces.widgets.workspaces:list").value = ['wiki']
+    >>> admin.getControl(name="content.edit.buttons.save").click()
+
+    >>> admin.open('http://localhost/space/wiki/')
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">FrontPage</h1><div class="z-content-byline">
+      Last modified by
+        <a href="http://localhost/people/manager/">
+          Manager
+        </a>
+      ...
+      (<a href="http://localhost/space/wiki/FrontPage/history.html">History</a>)
+    </div><div class="z-content-body"><br />This is <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> of the Wiki.</div>
+    ...
+    </html>
+
+Modify page
+
+    >>> admin.getLink('Edit Wiki Page').click()
+    >>> admin.getControl('Page text').value = """This is FrontPage of the Wiki.
+    ... WikiWorkspace test"""
+    >>> admin.getControl(name="content.edit.buttons.save").click()
+    >>> admin.open('http://localhost/space/wiki/')
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">FrontPage</h1>...
+    ...
+    ...<div class="z-content-body"><br />This is <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> of the Wiki.<br />
+       WikiWorkspace<a href="http://localhost/space/wiki/WikiWorkspace/?parent=FrontPage">?</a> test</div>
+    ...
+    </html>
+
+Create new page
+
+    >>> admin.getLink('?').click()
+    >>> admin.url
+    'http://localhost/space/wiki/WikiWorkspace/?parent=FrontPage'
+
+    >>> admin.getControl(name="form.buttons.cancel").click()
+    >>> admin.url
+    'http://localhost/space/wiki/FrontPage/'
+
+    >>> admin.getLink('?').click()
+    >>> admin.getControl('Title').value = u'Wiki workspace'
+    >>> admin.getControl('Page text').value = """This is link to FrontPage of the Wiki.
+    ... And [Wiki product test link]"""
+    >>> admin.getControl(name="form.buttons.create").click()
+
+    >>> admin.open('http://localhost/space/wiki/')
+    >>> admin.getLink('WikiWorkspace').click()
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">Wiki workspace</h1>...
+    ...
+    ...<div class="z-content-body"><br />This is link to <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> of the Wiki.<br />
+       And Wiki product test link<a href="http://localhost/space/wiki/WikiProductTestLink/?parent=WikiWorkspace">?</a></div>
+    ...
+    </html>
+
+    >>> admin.getLink('?').click()
+    >>> admin.getControl('Page text').value = """Just wiki page"""
+    >>> admin.getControl(name="form.buttons.create").click()
+
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">WikiProductTestLink</h1>...
+    ...
+    ...<div class="z-content-body"><br />Just wiki page</div>
+    ...
+    </html>
+
+    >>> admin.getLink('Related pages').click()
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">WikiProductTestLink</h1>...
+    ...
+    <div class="z-content-body">
+      <h2>Parents</h2>
+      <ul>
+        <li><a href="http://localhost/space/wiki/WikiWorkspace/">Wiki workspace</a></li>
+      </ul>
+      <br />
+      <h2>Backlinks</h2>
+      Here are the pages which link to this page:
+      <ol>
+        <li>
+          <a href="http://localhost/space/wiki/WikiWorkspace/">Wiki workspace</a>
+        </li>
+      </ol>
+      <br />
+      <h2>Subtopics</h2>
+      <div>
+        <br />
+        There are no subtopics.
+      </div>
+    </div>
+    ...
+    </html>
+
+    >>> admin.getLink('Edit Wiki Page').click()
+    >>> admin.getLink('Parent').click()
+    >>> admin.getControl(name="parent.widgets.parent:list").value = ["FrontPage"]
+    >>> admin.getControl(name="content.edit.buttons.save").click()
+    >>> admin.getLink('View').click()
+    >>> admin.getLink('Related pages').click()
+    >>> print admin.contents
+    <html>
+    ...
+    <h2>Parents</h2>
+    <ul>
+       <li><a href="http://localhost/space/wiki/FrontPage/">FrontPage</a></li>
+    </ul>
+    ...
+    </html>
+
+    >>> admin.getLink('FrontPage').click()
+    >>> admin.getLink('Related pages').click()
+    >>> print admin.contents
+    <html>
+    ...
+    <h2>Parents</h2>
+    <div>
+      <ul>
+        <li>
+          <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> 
+          is a top-level topic
+        </li>
+      </ul>
+    </div>
+    ...
+    <h2>Backlinks</h2>
+    Here are the pages which link to this page:
+    <ol>
+      <li>
+         <a href="http://localhost/space/wiki/WikiWorkspace/">Wiki workspace</a>
+      </li>
+    </ol>
+    ...
+    <h2>Subtopics</h2>
+    <div>
+       Here are page subtopics:
+       <ol>
+          <li>
+             <a href="http://localhost/space/wiki/WikiWorkspace/">Wiki workspace</a>
+          </li>
+          <li>
+             <a href="http://localhost/space/wiki/WikiProductTestLink/">WikiProductTestLink</a>
+          </li>
+        </ol>
+    </div>
+    ...
+    </html>
+
+    >>> admin.getLink('History').click()
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">
+        Edit history for
+        <a href="./">FrontPage</a></h1>
+    <div class="z-table-container">
+      <table class="z-table">
+        <thead>
+          <tr>
+            <th>Version</th> <th>Note</th> <th>Editor</th> <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="z-table-record odd">
+            <td class="t-wiki-version"><a href="http://localhost/space/wiki/FrontPage/history.html?rev=0">000</a></td> <td class="t-wiki-note"></td> <td>Manager</td> <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>...
+    ...
+    </html>
+
+    >>> admin.getLink('000').click()
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">
+        Edit details for 
+        <a href="./">FrontPage</a>
+        revision 1
+        of
+        1
+    </h1>
+    <div class="wiki-revision-information">
+      <table>
+        <tr>
+          <th>Editor</th>
+          <td>Manager</td>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <td class="nowrap">...</td>
+          </tr>
+        <tr>
+          <th>Note</th>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    ...
+    <div class="z-content-body">This is <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> of the Wiki.</div>
+    ...
+    </html>
+
+    >>> admin.getControl(name="returnToHistory").click()
+    >>> admin.url
+    'http://localhost/space/wiki/FrontPage/history.html'
+
+    >>> admin.getLink('000').click()
+    >>> admin.getControl(name="revert").click()
+
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">FrontPage</h1>...
+    ...
+    ...<div class="z-content-body"><br />This is <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> of the Wiki.</div>
+    ...
+    </html>
+
+    >>> admin.getLink('History').click()
+    >>> admin.getLink('001').click()
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">
+        Edit details for 
+        <a href="./">FrontPage</a>
+        revision 2
+        of
+        2
+    </h1>
+    <div class="wiki-revision-information">
+      <table>
+        <tr>
+          <th>Editor</th>
+          <td>Manager</td>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <td class="nowrap">...</td>
+        </tr>
+        <tr>
+          <th>Note</th>
+          <td>Reverted to 0 version</td>
+        </tr>
+      </table>
+    </div>
+    ...
+    <pre class="wiki-diff"><span class="wiki-diff-tag">added:</span>
+    <span class="wiki-diff-added">WikiWorkspace test</span></pre>
+    ...
+    </html>
+
+
+    >>> anon = Browser()
+    >>> anon.handleErrors = False
+    >>> anon.open('http://localhost/space/wiki/WikiWorkspace/')
+    >>> anon.getLink('Wiki product test link').click()
+
+    >>> anon.open('http://localhost/space/wiki/UnknownPage/')
+    >>> print anon.contents
+    <html>
+    ...
+    <div>
+      Sorry, you don't have permission to perform this action.
+    </div>
+    ...
+    </html>
+
+    >>> anon.open('http://localhost/space/wiki/WikiWorkspace/')
+    >>> anon.getLink('Wiki contents').click()
+    >>> print anon.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">Wiki</h1>...
+    <div class="z-content-body">
+      <ul>
+        <li>
+          <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a>
+          <ul>
+            <li>
+              <a href="http://localhost/space/wiki/WikiWorkspace/">Wiki workspace</a>
+              &lt;-- Your are here.
+            </li> <li>
+              <a href="http://localhost/space/wiki/WikiProductTestLink/">WikiProductTestLink</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    ...
+    </html>
+
+Add wiki page
+-------------
+
+    >>> anon.open('http://localhost/space/wiki/FrontPage/')
+    >>> admin.getLink('Add Wiki Page').click()
+    >>> admin.getControl('Page text').value = """Just wiki page"""
+    >>> admin.getControl(name="form.buttons.create").click()
+
+    >>> 'Please fix indicated errors.' in admin.contents
+    True
+
+    >>> admin.getControl('Title').value = """Test wiki page"""
+    >>> admin.getControl('Page text').value = """Just wiki page"""
+    >>> admin.getControl(name="form.buttons.create").click()
+
+    >>> print admin.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">Test wiki page</h1>...
+    ...
+    ...<div class="z-content-body"><br />Just wiki page</div>
+    ...
+    </html>
+
+    >>> admin.url
+    'http://localhost/space/wiki/TestWikiPage/'
+
+    >>> admin.getLink('Wiki contents').click()
+    >>> print admin.contents
+    <html>
+    ...
+    <ul>
+       <li>
+          <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a>
+          <ul>
+            <li>
+              <a href="http://localhost/space/wiki/TestWikiPage/">Test wiki page</a>
+              &lt;-- Your are here.
+            </li>
+            <li>
+              <a href="http://localhost/space/wiki/WikiWorkspace/">Wiki workspace</a>
+            </li>
+            <li>
+              <a href="http://localhost/space/wiki/WikiProductTestLink/">WikiProductTestLink</a>
+            </li>
+          </ul>
+       </li>
+    </ul>
+    ...
+    </html>

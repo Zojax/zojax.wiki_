@@ -1,0 +1,38 @@
+=======
+CHANGES
+=======
+
+0.4.1 (2009-08-22)
+------------------
+
+- Update tests
+
+
+0.4.0 (2009-08-12)
+------------------
+
+- Added ISearchableText for wiki page
+
+
+0.3.0 (2009-06-23)
+------------------
+
+- Replace 'zojax:globalpermission' with 'zojax:permission'
+
+- Portlet managers change to with status
+
+
+0.2.0 (2009-05-26)
+------------------
+
+- Remove zojax.personal.space', zojax.personal.content dependencies
+
+- Fixed 'Cancel' button on add wiki page form
+
+- Copyright changed to 'Zope Foundation and Contributors'
+
+
+0.1.0 (2009-05-20)
+------------------
+
+- Initial release.

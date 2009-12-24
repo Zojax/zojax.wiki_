@@ -1,0 +1,57 @@
+<tal:block i18n:domain="zojax.wiki">
+  <tal:block tal:content="structure pageelement:content.title" />
+  <tal:block tal:content="structure pageelement:content.header" />
+  <tal:block tal:content="structure pageelement:content.description" />
+  <br />
+
+  <div class="z-content-body">
+
+    <h2 i18n:translate="">Parents</h2>
+    <ul tal:condition="view/parent">
+      <li><a tal:attributes="href string:${view/parent/@@absolute_url}/"
+	     tal:content="view/parent/title"></a></li>
+    </ul>
+    <div tal:condition="not:view/parent">
+      <ul>
+	<li>
+	  <a tal:attributes="href string:${context/@@absolute_url}/"
+	     tal:content="context/title"></a> 
+	  <tal:block i18n:translate="">is a top-level topic</tal:block>
+	</li>
+      </ul>
+    </div>
+    <br />
+    
+    <tal:block tal:condition="view/backlinks">
+      <h2 i18n:translate="">Backlinks</h2>
+      <tal:block i18n:translate="">
+	Here are the pages which link to this page:
+      </tal:block>
+
+      <ol>
+	<li tal:repeat="link view/backlinks">
+	  <a tal:attributes="href string:${link/@@absolute_url}/"
+	     tal:content="link/title"></a>
+	</li>
+      </ol>
+      <br />
+    </tal:block>
+    
+    <h2 i18n:translate="">Subtopics</h2>
+    <div tal:condition="not:view/subtopics">
+      <br />
+      <tal:block i18n:translate="">There are no subtopics.</tal:block>
+    </div>
+    
+    <div tal:condition="view/subtopics">
+      <tal:block i18n:translate="">Here are page subtopics:</tal:block>
+      <ol>
+	<li tal:repeat="link view/subtopics">
+	  <a tal:attributes="href string:${link/@@absolute_url}/"
+	     tal:content="link/title"></a>
+	</li>
+      </ol>
+    </div>
+    
+  </div>
+</tal:block>

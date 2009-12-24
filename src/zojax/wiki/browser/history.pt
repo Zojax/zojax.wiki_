@@ -1,0 +1,50 @@
+<tal:block condition="not:view/revision" i18n:domain="zojax.wiki">
+  <h1 class="z-content-title">
+    <tal:block i18n:translate="">Edit history for</tal:block>
+    <a tal:content="context/title" href="./" /></h1>
+
+  <tal:block define="context python:context.history"
+	     content="structure provider:wiki.page.history" />
+</tal:block>
+
+<tal:block condition="view/revision" i18n:domain="zojax.wiki">
+  <h1 class="z-content-title">
+    Edit details for
+    <a tal:content="context/title" href="./" />
+    revision <tal:block content="view/revId" />
+    of 
+    <tal:block content="view/revTotal" />
+  </h1>
+  <div class="wiki-revision-information">
+    <table>
+      <tr>
+	<th>Editor</th>
+	<td tal:content="view/principal"></td>
+      </tr>
+      <tr>
+	<th>Time</th>
+	<td class="nowrap"
+	    tal:content="structure formatter:fancyDatetime,medium:view/revision/date"></td>
+      </tr>
+      <tr>
+	<th>Note</th>
+	<td><tal:block tal:content="view/revision/note"/></td>
+      </tr>
+    </table>
+  </div>
+
+  <form action="history.html" method="post">
+    <input type="hidden" class="z-form-button"
+	   name="rev" tal:attributes="value request/rev" />
+    <input type="submit" class="z-form-button" i18n:attributes="value"
+	   name="returnToHistory" value="Return to history" />
+    <input type="submit" class="z-form-standalonebtn"
+	   tal:condition="view/allowEdit" i18n:attributes="value"
+	   name="revert" value="Revert to this version" />
+  </form>
+
+  <div class="visualClear"></div>
+  <pre class="wiki-diff"
+     tal:condition="view/diff" tal:content="structure view/diff"></pre>
+  <div class="z-content-body" tal:content="structure view/renderText"></div>
+</tal:block>

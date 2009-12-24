@@ -1,0 +1,20 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.wiki">
+
+  <!-- action -->
+  <adapter
+     name="wiki.related"
+     factory=".related.RelatedPagesAction" />
+
+  <!-- related pages view -->
+  <zojax:pagelet
+     name="relatedpages.html"
+     for="..interfaces.IWikiPage"
+     template="related.pt"
+     class=".related.RelatedPages"
+     permission="zope.View" />
+
+</configure>

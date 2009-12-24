@@ -1,0 +1,36 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.wiki">
+
+  <zojax:content
+     name="wiki.page"
+     title="Wiki Page"
+     schema=".interfaces.IWikiPage"
+     class=".wikipage.WikiPage"
+     permission="zojax.ModifyWikiContent"
+     type="zojax.content.type.interfaces.IPortalType
+	   zojax.content.type.interfaces.IInactiveType" />
+
+  <class class=".wikipage.WikiPage">
+    <implements interface="zojax.activity.interfaces.IActivityAware" />
+    <implements interface="zojax.content.tagging.interfaces.IContentTaggable" />
+    <implements interface="zojax.content.discussion.interfaces.IOpenDiscussible" />
+
+    <require
+       permission="zope.View"
+       attributes="description"
+       interface=".interfaces.IWikiPage" />
+    <require
+       permission="zojax.ModifyWikiContent"
+       attributes="cook"
+       set_attributes="parent"
+       set_schema=".interfaces.IWikiPage" />
+  </class>
+
+  <subscriber handler=".wikipage.wikipageChanged" />
+  <subscriber handler=".wikipage.wikipageMovedHandler" />
+
+  <adapter factory=".wikipage.WikiPageSearchableText" />
+
+</configure>
