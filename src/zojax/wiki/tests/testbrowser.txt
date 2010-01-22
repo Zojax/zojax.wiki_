@@ -140,7 +140,7 @@ Create new page
     <div>
       <ul>
         <li>
-          <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> 
+          <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a>
           is a top-level topic
         </li>
       </ul>
@@ -180,7 +180,7 @@ Create new page
       <table class="z-table">
         <thead>
           <tr>
-            <th>Version</th> <th>Note</th> <th>Editor</th> <th>Date</th>
+            <th class="t-wiki-version">Version</th> <th class="t-wiki-note">Note</th> <th>Editor</th> <th>Date</th>
           </tr>
         </thead>
         <tbody>
@@ -198,7 +198,7 @@ Create new page
     <html>
     ...
     ...<h1 class="z-content-title">
-        Edit details for 
+        Edit details for
         <a href="./">FrontPage</a>
         revision 1
         of
@@ -247,7 +247,7 @@ Create new page
     <html>
     ...
     ...<h1 class="z-content-title">
-        Edit details for 
+        Edit details for
         <a href="./">FrontPage</a>
         revision 2
         of
