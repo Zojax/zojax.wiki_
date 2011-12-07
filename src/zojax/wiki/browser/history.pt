@@ -8,26 +8,26 @@
 </tal:block>
 
 <tal:block condition="view/revision" i18n:domain="zojax.wiki">
-  <h1 class="z-content-title">
+  <h1 class="z-content-title" i18n:translate="">
     Edit details for
-    <a tal:content="context/title" href="./" />
-    revision <tal:block content="view/revId" />
+    <a tal:content="context/title" href="./" i18n:name="title" />
+    revision <tal:block content="view/revId"  i18n:name="revId"/>
     of 
-    <tal:block content="view/revTotal" />
+    <tal:block content="view/revTotal" i18n:name="revTotal"/>
   </h1>
   <div class="wiki-revision-information">
     <table>
       <tr>
-	<th>Editor</th>
+	<th i18n:translate="">Editor</th>
 	<td tal:content="view/principal"></td>
       </tr>
       <tr>
-	<th>Time</th>
+	<th i18n:translate="">Time</th>
 	<td class="nowrap"
 	    tal:content="structure formatter:fancyDatetime,medium:view/revision/date"></td>
       </tr>
       <tr>
-	<th>Note</th>
+	<th i18n:translate="">Note</th>
 	<td><tal:block tal:content="view/revision/note"/></td>
       </tr>
     </table>

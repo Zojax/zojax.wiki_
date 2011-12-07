@@ -3,12 +3,12 @@
       i18n:translate=""></h1>
   
   <br />
-  <div>
+  <div i18n:translate="">
     Sorry, you don't have permission to perform this action.
   </div>
 
   <br />
-  <a href="#"
+  <a href="#" i18n:translate=""
      tal:attributes="href string:../${request/parent|nothing}/">Back</a>
 </tal:block>
 
