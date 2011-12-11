@@ -1,6 +1,5 @@
 <tal:block tal:condition="not:view/allow">
-  <h1 class="z-form-title" tal:content="view/label" 
-      i18n:translate=""></h1>
+  <h1 class="z-form-title" tal:content="view/label"></h1>
   
   <br />
   <div i18n:translate="">

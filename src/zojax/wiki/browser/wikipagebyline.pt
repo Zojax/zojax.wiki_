@@ -7,6 +7,6 @@
   </tal:block>
 
   at 
-  <tal:block content="structure formatter:fancyDatetime,medium:view/date" />
+  <tal:block content="structure formatter:fancyDatetime,medium:view/date" i18n:name="date" />
   (<tal:block i18n:name="history"><a i18n:translate="" tal:attributes="href string:${context/@@absolute_url}/history.html">History</a></tal:block>)
 </div>
