@@ -1,0 +1,226 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Sun Dec 11 10:49:37 2011\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/zojax/wiki/browser/contents.py:32
+msgid "Wiki contents"
+msgstr ""
+
+#: src/zojax/wiki/browser/empty.pt:10
+msgid "Back"
+msgstr ""
+
+#: src/zojax/wiki/browser/empty.pt:5
+msgid "Sorry, you don't have permission to perform this action."
+msgstr ""
+
+#: src/zojax/wiki/browser/empty.py:47
+#. Default: ""
+msgid "Wiki Page: ${name}"
+msgstr ""
+
+#: src/zojax/wiki/browser/empty.py:54
+#: src/zojax/wiki/browser/wiki.py:117
+msgid "Create"
+msgstr ""
+
+#: src/zojax/wiki/browser/empty.py:71
+#: src/zojax/wiki/browser/wiki.py:136
+msgid "Wiki page has been added."
+msgstr ""
+
+#: src/zojax/wiki/browser/empty.py:78
+#: src/zojax/wiki/browser/wiki.py:141
+msgid "Cancel"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.pt:16
+msgid "Edit details for ${title} revision ${revId} of ${revTotal}"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.pt:25
+msgid "Time"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.pt:3
+msgid "Edit history for"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.pt:30
+msgid "Note"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.pt:39
+msgid "Return to history"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.pt:41
+msgid "Revert to this version"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.py:103
+#: src/zojax/wiki/browser/history.pt:21
+msgid "Editor"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.py:122
+msgid "Date"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.py:158
+msgid "Can't find revision."
+msgstr ""
+
+#: src/zojax/wiki/browser/history.py:162
+msgid "Wiki page has been reverted."
+msgstr ""
+
+#: src/zojax/wiki/browser/history.py:177
+msgid "Unknown"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.py:41
+#: src/zojax/wiki/revision.py:75
+#: src/zojax/wiki/browser/wikipagebyline.pt:11
+msgid "History"
+msgstr ""
+
+#: src/zojax/wiki/browser/history.py:57
+msgid "There are no any history records."
+msgstr ""
+
+#: src/zojax/wiki/browser/interfaces.py:32
+msgid "Modification Note"
+msgstr ""
+
+#: src/zojax/wiki/browser/interfaces.py:41
+#: src/zojax/wiki/browser/wikipage.py:124
+msgid "Parent"
+msgstr ""
+
+#: src/zojax/wiki/browser/interfaces.py:42
+msgid "Select parent for wiki page."
+msgstr ""
+
+#: src/zojax/wiki/browser/related.pt:19
+msgid "is a top-level topic"
+msgstr ""
+
+#: src/zojax/wiki/browser/related.pt:26
+msgid "Backlinks"
+msgstr ""
+
+#: src/zojax/wiki/browser/related.pt:27
+msgid "Here are the pages which link to this page:"
+msgstr ""
+
+#: src/zojax/wiki/browser/related.pt:40
+msgid "Subtopics"
+msgstr ""
+
+#: src/zojax/wiki/browser/related.pt:43
+msgid "There are no subtopics."
+msgstr ""
+
+#: src/zojax/wiki/browser/related.pt:47
+msgid "Here are page subtopics:"
+msgstr ""
+
+#: src/zojax/wiki/browser/related.pt:9
+msgid "Parents"
+msgstr ""
+
+#: src/zojax/wiki/browser/related.py:33
+msgid "Related pages"
+msgstr ""
+
+#: src/zojax/wiki/browser/wiki.py:100
+#: src/zojax/wiki/interfaces.py:64
+msgid "Title"
+msgstr ""
+
+#: src/zojax/wiki/browser/wiki.py:101
+#: src/zojax/wiki/interfaces.py:65
+msgid "Wiki page title."
+msgstr ""
+
+#: src/zojax/wiki/browser/wiki.py:105
+#: src/zojax/wiki/interfaces.py:69
+msgid "Page text"
+msgstr ""
+
+#: src/zojax/wiki/browser/wiki.py:106
+#: src/zojax/wiki/interfaces.py:70
+msgid "Wiki page text."
+msgstr ""
+
+#: src/zojax/wiki/browser/wiki.py:74
+msgid "Manage Wiki"
+msgstr ""
+
+#: src/zojax/wiki/browser/wiki.py:88
+#: src/zojax/wiki/browser/wiki.py:112
+msgid "Add Wiki Page"
+msgstr ""
+
+#: src/zojax/wiki/browser/wikipage.py:100
+msgid "Modify Wiki Page"
+msgstr ""
+
+#: src/zojax/wiki/browser/wikipage.py:125
+msgid "Change wiki page parent"
+msgstr ""
+
+#: src/zojax/wiki/browser/wikipage.py:99
+msgid "Content"
+msgstr ""
+
+#: src/zojax/wiki/browser/wikipagebyline.pt:11
+msgid "Last modified by ${author} at ${date} (${history})"
+msgstr ""
+
+#: src/zojax/wiki/interfaces.py:34
+msgid "Old lines"
+msgstr ""
+
+#: src/zojax/wiki/interfaces.py:35
+msgid "Maximum old lines to show."
+msgstr ""
+
+#: src/zojax/wiki/interfaces.py:40
+msgid "New lines"
+msgstr ""
+
+#: src/zojax/wiki/interfaces.py:41
+msgid "Maximum new lines to show."
+msgstr ""
+
+#: src/zojax/wiki/workspace.py:39
+msgid "Space wiki."
+msgstr ""
+
+#: src/zojax/wiki/workspace.py:48
+msgid "Wiki"
+msgstr ""
+
