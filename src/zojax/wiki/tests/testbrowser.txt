@@ -17,16 +17,19 @@ Test browser
     >>> print admin.contents
     <html>
     ...
-    ...<h1 class="z-content-title">FrontPage</h1><div class="z-content-byline">
+    </div><h1 class="z-content-title">FrontPage</h1>
+      <div class="z-content-byline">
       Last modified by
-        <a href="http://localhost/people/manager/">
+      <a href="http://localhost/people/manager/">
           Manager
         </a>
-      ...
+    ...
       (<a href="http://localhost/space/wiki/FrontPage/history.html">History</a>)
-    </div><div class="z-content-body"><br />This is <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> of the Wiki.</div>
+    ...
+      <div class="z-content-body"><br />This is <a href="http://localhost/space/wiki/FrontPage/">FrontPage</a> of the Wiki.</div>
     ...
     </html>
+
 
 Modify page
 
